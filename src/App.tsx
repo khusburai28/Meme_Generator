@@ -1,38 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
-import { Modal } from './Modal'
-import { Meme } from './types'
+import { Modal } from "./Modal";
+import { Meme } from "./types";
 
-import './App.css'
+import "./App.css";
 
-type ModalState = Pick<Meme, 'id' | 'name' | 'blank' | 'lines'>
+type ModalState = Pick<Meme, "id" | "name" | "blank" | "lines">;
 
 function App() {
-  const [memes, setMemes] = useState<Meme[] | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [memes, setMemes] = useState<Meme[] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState<ModalState>({
-    id: '',
-    name: '',
-    blank: '',
+    id: "",
+    name: "",
+    blank: "",
     lines: 1,
-  })
+  });
 
   useEffect(() => {
-    fetch('https://api.memegen.link/templates')
+    fetch("https://api.memegen.link/templates")
       .then((data) => data.json())
       .then((res) => {
-        setMemes(res)
-      })
-  }, [])
+        setMemes(res);
+      });
+  }, []);
 
   const handleOpenModal = ({ id, name, blank, lines }: ModalState) => {
-    setCurrentModal({ id, name, blank, lines })
-    setIsModalOpen(true)
-  }
+    setCurrentModal({ id, name, blank, lines });
+    setIsModalOpen(true);
+  };
   const handleCloseModal = () => {
-    setCurrentModal({ id: '', name: '', blank: '', lines: 1 })
-    setIsModalOpen(false)
-  }
+    setCurrentModal({ id: "", name: "", blank: "", lines: 1 });
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="App">
@@ -50,9 +50,9 @@ function App() {
             handleCloseModal={handleCloseModal}
           />
         )}
-        {memes?.map((meme) => {
+        {memes?.map((meme, index) => {
           return (
-            <div key={meme.id} className="card">
+            <div key={index} className="card">
               <img src={meme.blank} alt={meme.name} loading="lazy" />
               <p>{meme.name}</p>
               <button
@@ -70,11 +70,11 @@ function App() {
                 Generate
               </button>
             </div>
-          )
+          );
         })}
       </section>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
